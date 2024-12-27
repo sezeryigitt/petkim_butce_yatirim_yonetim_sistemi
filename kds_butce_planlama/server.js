@@ -24,8 +24,8 @@ baglanti.connect(err => {
 
 
 
-// Chart.js ile dashboard oluşturma
 
+// Chart.js ile dashboard oluşturma
 app.get('/icerik/proje-karlilik', (req, res) => {
     const sql = `
         SELECT 
@@ -43,8 +43,6 @@ app.get('/icerik/proje-karlilik', (req, res) => {
     });
 });
 
-
-// Chart.js ile dashboard oluşturma
 
 
 app.get('/', (req, res) => {

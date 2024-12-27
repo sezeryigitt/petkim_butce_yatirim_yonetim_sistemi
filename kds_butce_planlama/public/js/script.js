@@ -61,6 +61,8 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     }
 
+
+    // Dashboard kısımları
     function projeKarlilikGrafiğiniOlustur(veriler) {
         const projeAdi = veriler.map(item => item.ProjeAdi);
         const yatirimTutari = veriler.map(item => item.YatirimTutari);
@@ -95,6 +97,25 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+    // Dashboard kısımları
+
+
+
+// Sayfa yüklendiğinde grafiği oluştur
+document.addEventListener('DOMContentLoaded', () => {
+    // Örnek: Dönem bazlı verileri çek ve grafiği oluştur
+    fetch('/api/donem-bazli-butce') // Yeni endpoint'i kullan
+        .then(response => response.json())
+        .then(data => {
+            gelir_gider_tablosu(data);
+        })
+        .catch(error => {
+            console.error("Veri çekme hatası:", error);
+        });
+});
+    // Dashboard kısımları
+
+
 
     if (subMenuLinks.length > 0) {
         icerikYukle(subMenuLinks[0].dataset.sayfa);
