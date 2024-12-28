@@ -44,6 +44,24 @@ app.get('/icerik/proje-karlilik', (req, res) => {
 });
 
 
+app.get('/icerik/gelir-gider-tablosu', (req, res) => {
+    const sql = `
+    SELECT 
+       *
+    FROM butce;
+`   ;
+
+    baglanti.query(sql, (error, results) => {
+        if (error) {
+            console.error("SQL sorgu hatası:", error);
+            return res.status(500).json({ hata: "Veritabanı hatası" });
+        }
+        res.json({ tip: 'gelir_gider', veriler_1: results });
+    });
+});
+
+
+
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));

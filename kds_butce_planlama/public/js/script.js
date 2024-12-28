@@ -17,13 +17,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function icerikYukle(sayfaAdi) {
         fetch(`/icerik/${sayfaAdi}`)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                return response.json();
-            })
+            .then(response => response.json())
             .then(data => {
+                console.log("Gelen veri:", data);
                 let icerikHTML = `<h1>${data.baslik || "Başlık Yok"}</h1>`;
 
                 if (data.veriler && data.veriler.length > 0) {
@@ -31,22 +27,18 @@ document.addEventListener('DOMContentLoaded', () => {
                         icerikHTML += '<canvas id="projeKarlilikGrafigi"></canvas>';
                         contentArea.innerHTML = icerikHTML;
                         projeKarlilikGrafiğiniOlustur(data.veriler);
+                    } else if (data.tip === 'gelir_gider') {
+                        icerikHTML += '<canvas id="gelir_gider"></canvas>';
+                        contentArea.innerHTML = icerikHTML;
+                        gelir_gider_dashboard(data.veriler_1);
                     } else {
-                        icerikHTML += '<table><thead><tr>';
-                        Object.keys(data.veriler[0]).forEach(key => icerikHTML += `<th>${key}</th>`);
-                        icerikHTML += '</tr></thead><tbody>';
-                        data.veriler.forEach(veri => {
-                            icerikHTML += '<tr>';
-                            Object.values(veri).forEach(val => icerikHTML += `<td>${val}</td>`);
-                            icerikHTML += '</tr>';
-                        });
-                        icerikHTML += '</tbody></table>';
+                        icerikHTML += "<p>Desteklenmeyen veri tipi.</p>";
                         contentArea.innerHTML = icerikHTML;
                     }
                 } else if (data.hata) {
-                    icerikHTML = `<p class="hata">${data.hata}</p>`;
+                    contentArea.innerHTML = `<p class="hata">${data.hata}</p>`;
                 } else {
-                    icerikHTML = "<p>Gösterilecek veri bulunamadı.</p>";
+                    contentArea.innerHTML = "<p>Gösterilecek veri bulunamadı.</p>";
                 }
 
                 subMenuLinks.forEach(link => link.classList.remove('active'));
@@ -61,32 +53,34 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     }
 
-
-    // Dashboard kısımları
     function projeKarlilikGrafiğiniOlustur(veriler) {
         const projeAdi = veriler.map(item => item.ProjeAdi);
         const yatirimTutari = veriler.map(item => item.YatirimTutari);
         const beklenenGetiri = veriler.map(item => item.BeklenenGetiri);
 
-        const ctx = document.getElementById('projeKarlilikGrafigi').getContext('2d');
+        const ctx = document.getElementById('projeKarlilikGrafigi')?.getContext('2d');
+        if (!ctx) return;
+
         new Chart(ctx, {
             type: 'bar',
             data: {
                 labels: projeAdi,
-                datasets: [{
-                    label: 'Yatırım Tutarı',
-                    data: yatirimTutari,
-                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                    borderColor: 'rgba(255, 99, 132, 1)',
-                    borderWidth: 1
-                },
-                {
-                    label: 'Beklenen Getiri',
-                    data: beklenenGetiri,
-                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                    borderColor: 'rgba(54, 162, 235, 1)',
-                    borderWidth: 1
-                }]
+                datasets: [
+                    {
+                        label: 'Yatırım Tutarı',
+                        data: yatirimTutari,
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Beklenen Getiri',
+                        data: beklenenGetiri,
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }
+                ]
             },
             options: {
                 scales: {
@@ -97,25 +91,46 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-    // Dashboard kısımları
 
+    function gelir_gider_dashboard(veriler_1) {
+        const Donem = veriler_1.map(item => item.Donem);
+        const GelirButcesi = veriler_1.map(item => item.GelirButcesi);
+        const GiderButcesi = veriler_1.map(item => item.GiderButcesi);
 
+        const ctx = document.getElementById('gelir_gider')?.getContext('2d');
+        if (!ctx) return;
 
-// Sayfa yüklendiğinde grafiği oluştur
-document.addEventListener('DOMContentLoaded', () => {
-    // Örnek: Dönem bazlı verileri çek ve grafiği oluştur
-    fetch('/api/donem-bazli-butce') // Yeni endpoint'i kullan
-        .then(response => response.json())
-        .then(data => {
-            gelir_gider_tablosu(data);
-        })
-        .catch(error => {
-            console.error("Veri çekme hatası:", error);
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: Donem,
+                datasets: [
+                    {
+                        label: 'Gelir Bütçesi',
+                        data: GelirButcesi,
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Gider Bütçesi',
+                        data: GiderButcesi,
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
         });
-});
-    // Dashboard kısımları
-
-
+    }
 
     if (subMenuLinks.length > 0) {
         icerikYukle(subMenuLinks[0].dataset.sayfa);

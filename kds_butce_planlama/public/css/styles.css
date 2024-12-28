@@ -54,6 +54,16 @@ body {
   padding: 0;
 }
 
+.module-list li ul {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-in-out; /* Daha akıcı bir animasyon */
+}
+
+.module-list li.active ul {
+  max-height: 500px; /* veya uygun bir değer */
+}
+
 .module-list > li > a {
   display: flex;
   align-items: center; /* Dikey hizalama */
