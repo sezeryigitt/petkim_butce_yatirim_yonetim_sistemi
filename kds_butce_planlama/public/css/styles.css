@@ -47,6 +47,21 @@ body {
   margin-bottom: 10px;
 }
 
+
+
+.dashboard-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.dashboard-header label {
+  margin-right: 10px;
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+
 /* Modül Listesi */
 /* Modül Listesi */
 .module-list {
@@ -170,4 +185,8 @@ th {
 
 tr:nth-child(even) { /* Çift satırlara hafif gri arka plan */
   background-color: #f9f9f9;
+}
+
+#gelir_gider {
+  margin-top: 100px; /* Grafiğin üstünden 100 piksel boşluk bırakır */
 }

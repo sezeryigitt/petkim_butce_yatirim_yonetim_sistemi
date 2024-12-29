@@ -22,9 +22,6 @@ baglanti.connect(err => {
     console.log("MySQL bağlantısı başarılı!");
 });
 
-
-
-
 // Chart.js ile dashboard oluşturma
 app.get('/icerik/proje-karlilik', (req, res) => {
     const sql = `
@@ -43,14 +40,17 @@ app.get('/icerik/proje-karlilik', (req, res) => {
     });
 });
 
-
 app.get('/icerik/gelir-gider-tablosu', (req, res) => {
     const sql = `
-    SELECT 
-       *
-    FROM butce;
-`   ;
-
+        SELECT 
+            TesisAdi, 
+            GelirButcesi, 
+            GiderButcesi,
+            GelirBeklentisi
+        FROM butce
+        JOIN tesisler ON butce.TesisID = tesisler.TesisID
+        WHERE tesisler.TesisAdi="PETKİM Aliağa Petrokimya Fabrikası";
+    `;
     baglanti.query(sql, (error, results) => {
         if (error) {
             console.error("SQL sorgu hatası:", error);
@@ -60,6 +60,89 @@ app.get('/icerik/gelir-gider-tablosu', (req, res) => {
     });
 });
 
+app.get('/icerik/gelir-gider-tablosu2', (req, res) => {
+    const sql = `
+        SELECT 
+            GelirButcesi, 
+            GiderButcesi,
+            GelirBeklentisi
+        FROM butce
+        JOIN tesisler ON butce.TesisID = tesisler.TesisID
+        WHERE tesisler.TesisAdi="PETKİM Satış Ofisi İstanbul";
+    `;
+    baglanti.query(sql, (error, results) => {
+        if (error) {
+            console.error("SQL sorgu hatası:", error);
+            return res.status(500).json({ hata: "Veritabanı hatası" });
+        }
+        res.json({ tip: 'gelir_gider2', veriler_2: results });
+    });
+});
+
+app.get('/icerik/gelir-gider-tablosu3', (req, res) => {
+    const sql = `
+        SELECT 
+            GelirButcesi, 
+            GiderButcesi,
+            GelirBeklentisi
+        FROM butce
+        JOIN tesisler ON butce.TesisID = tesisler.TesisID
+        WHERE tesisler.TesisAdi="PETKİM Satış Ofisi İstanbul";
+    `;
+    baglanti.query(sql, (error, results) => {
+        if (error) {
+            console.error("SQL sorgu hatası:", error);
+            return res.status(500).json({ hata: "Veritabanı hatası" });
+        }
+        res.json({ tip: 'gelir_gider3', veriler_3: results });
+    });
+});
+
+app.get('/icerik/gelir-gider-tablosu4', (req, res) => {
+    const sql = `
+        SELECT 
+            GelirButcesi, 
+            GiderButcesi,
+            GelirBeklentisi
+        FROM butce
+        JOIN tesisler ON butce.TesisID = tesisler.TesisID
+        WHERE tesisler.TesisAdi="PETKİM Satış Ofisi İstanbul";
+    `;
+    baglanti.query(sql, (error, results) => {
+        if (error) {
+            console.error("SQL sorgu hatası:", error);
+            return res.status(500).json({ hata: "Veritabanı hatası" });
+        }
+        res.json({ tip: 'gelir_gider4', veriler_4: results });
+    });
+});
+
+app.get('/icerik/gelir-gider-tablosu5', (req, res) => {
+    const sql = `
+        SELECT 
+            GelirButcesi, 
+            GiderButcesi,
+            GelirBeklentisi
+        FROM butce
+        JOIN tesisler ON butce.TesisID = tesisler.TesisID
+        WHERE tesisler.TesisAdi="PETKİM Teknik Bakım Merkezi";
+    `;
+    baglanti.query(sql, (error, results) => {
+        if (error) {
+            console.error("SQL sorgu hatası:", error);
+            return res.status(500).json({ hata: "Veritabanı hatası" });
+        }
+        res.json({ tip: 'gelir_gider5', veriler_5: results });
+    });
+});
+
+
+
+
+
+
+
+
 
 
 
@@ -68,6 +151,5 @@ app.get('/', (req, res) => {
 });
 
 app.listen(port, () => {
-    console.log(`Uygulama ${port} portunda çalışıyor.`);
+    console.log(`Sunucu ${port} portunda çalışıyor.`);
 });
-
