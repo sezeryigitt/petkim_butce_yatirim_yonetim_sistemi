@@ -1809,4 +1809,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+<<<<<<< HEAD
 });
+=======
+});
+>>>>>>> 6719a533243e97260fbe436bab7fa79b9a2a1f4b
