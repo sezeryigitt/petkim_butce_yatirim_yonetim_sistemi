@@ -40,15 +40,32 @@ app.get('/icerik/proje-karlilik', (req, res) => {
     });
 });
 
+app.get('/icerik/risk-analizi', (req, res) => {
+    const sql = `
+        SELECT 
+            ProjeAdi,
+            YatirimTutari,
+            BeklenenGetiri
+        FROM Yatirimlar;
+    `;
+    baglanti.query(sql, (error, results) => {
+        if (error) {
+            console.error("SQL sorgu hatası:", error);
+            return res.status(500).json({ hata: "Veritabanı hatası" });
+        }
+        res.json({ tip: 'projeKarsilastirmaRisk', verilerRisk: results });
+    });
+});
+
+
+
+
 app.get('/icerik/gelir-gider-tablosu', (req, res) => {
     const sql = `
         SELECT 
-            TesisAdi, 
-            GelirButcesi, 
-            GiderButcesi,
-            GelirBeklentisi
+            *
         FROM butce
-        JOIN tesisler ON butce.TesisID = tesisler.TesisID
+        JOIN tesisler ON butce.TesisID = tesisler.TesisID JOIN operasyonelmaliyetler ON operasyonelmaliyetler.TesisID = tesisler.TesisID
         WHERE tesisler.TesisAdi="PETKİM Aliağa Petrokimya Fabrikası";
     `;
     baglanti.query(sql, (error, results) => {
@@ -67,7 +84,7 @@ app.get('/icerik/gelir-gider-tablosu2', (req, res) => {
             GiderButcesi,
             GelirBeklentisi
         FROM butce
-        JOIN tesisler ON butce.TesisID = tesisler.TesisID
+        JOIN tesisler ON butce.TesisID = tesisler.TesisID JOIN operasyonelmaliyetler ON operasyonelmaliyetler.TesisID = tesisler.TesisID
         WHERE tesisler.TesisAdi="PETKİM Satış Ofisi İstanbul";
     `;
     baglanti.query(sql, (error, results) => {
@@ -82,11 +99,9 @@ app.get('/icerik/gelir-gider-tablosu2', (req, res) => {
 app.get('/icerik/gelir-gider-tablosu3', (req, res) => {
     const sql = `
         SELECT 
-            GelirButcesi, 
-            GiderButcesi,
-            GelirBeklentisi
+            *
         FROM butce
-        JOIN tesisler ON butce.TesisID = tesisler.TesisID
+        JOIN tesisler ON butce.TesisID = tesisler.TesisID JOIN operasyonelmaliyetler ON operasyonelmaliyetler.TesisID = tesisler.TesisID
         WHERE tesisler.TesisAdi="PETKİM Satış Ofisi İstanbul";
     `;
     baglanti.query(sql, (error, results) => {
@@ -101,11 +116,9 @@ app.get('/icerik/gelir-gider-tablosu3', (req, res) => {
 app.get('/icerik/gelir-gider-tablosu4', (req, res) => {
     const sql = `
         SELECT 
-            GelirButcesi, 
-            GiderButcesi,
-            GelirBeklentisi
+            *
         FROM butce
-        JOIN tesisler ON butce.TesisID = tesisler.TesisID
+        JOIN tesisler ON butce.TesisID = tesisler.TesisID JOIN operasyonelmaliyetler ON operasyonelmaliyetler.TesisID = tesisler.TesisID
         WHERE tesisler.TesisAdi="PETKİM Satış Ofisi İstanbul";
     `;
     baglanti.query(sql, (error, results) => {
@@ -120,11 +133,9 @@ app.get('/icerik/gelir-gider-tablosu4', (req, res) => {
 app.get('/icerik/gelir-gider-tablosu5', (req, res) => {
     const sql = `
         SELECT 
-            GelirButcesi, 
-            GiderButcesi,
-            GelirBeklentisi
+            *
         FROM butce
-        JOIN tesisler ON butce.TesisID = tesisler.TesisID
+        JOIN tesisler ON butce.TesisID = tesisler.TesisID JOIN operasyonelmaliyetler ON operasyonelmaliyetler.TesisID = tesisler.TesisID
         WHERE tesisler.TesisAdi="PETKİM Teknik Bakım Merkezi";
     `;
     baglanti.query(sql, (error, results) => {
@@ -135,14 +146,6 @@ app.get('/icerik/gelir-gider-tablosu5', (req, res) => {
         res.json({ tip: 'gelir_gider5', veriler_5: results });
     });
 });
-
-
-
-
-
-
-
-
 
 
 

@@ -1,192 +1,210 @@
 /* Genel stiller */
 body {
-  margin: 0;
-  font-family: 'DMSans', sans-serif;
-  background-color: #f0f0f0;
+  margin: 0; /* Sayfa kenar boşluklarını sıfırlar */
+  font-family: 'DMSans', sans-serif; /* Yazı tipi */
+  background-color: #f0f0f0; /* Arka plan rengi */
   color: #333; /* Genel metin rengi */
 }
 
+/* Container (Ana kapsayıcı) */
 .container {
-  display: flex;
-  height: 100vh;
+  display: flex; /* Flexbox düzeni kullanır */
+  height: 100vh; /* Tam ekran yüksekliği */
 }
 
 /* Kenar Çubuğu (Sidebar) */
 .sidebar {
-  width: 300px;
-  background-color: #003566; /* PETKİM mavisi */
-  color: #fff;
-  padding: 20px;
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
-  overflow-y: auto;
+  width: 300px; /* Genişlik 300px */
+  background-color: #003566; /* PETKİM mavisi arka plan rengi */
+  color: #fff; /* Beyaz metin rengi */
+  padding: 20px; /* İç boşluk */
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2); /* Sağda gölge efekti */
+  overflow-y: auto; /* Yalnızca dikey kaydırma çubuğu */
 }
 
+/* Kenar Çubuğu Başlığı */
 .sidebar-header {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  margin-bottom: 20px;
+  flex-direction: column; /* Başlık öğelerini dikey hizalar */
+  align-items: center; /* Ortalamayı sağlar */
+  text-align: center; /* Metin merkezde hizalanır */
+  margin-bottom: 20px; /* Alt boşluk */
 }
 
+/* PETKİM logosu */
 .petkim-logo {
   display: block;
-  max-width: 150px;
-  margin: 0 auto 20px; /* Üst ve alt boşluk 20px, sağ ve sol otomatik (ortalar) */
-  border-radius: 5px;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
-  transition: transform 0.3s ease-in-out;
+  max-width: 150px; /* Maksimum genişlik 150px */
+  margin: 0 auto 20px; /* Ortalanmış, alt boşluk 20px */
+  border-radius: 5px; /* Yuvarlatılmış köşeler */
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2); /* Gölgeleme efekti */
+  transition: transform 0.3s ease-in-out; /* Geçiş efekti */
 }
 
 .petkim-logo:hover {
-  transform: scale(1.05);
+  transform: scale(1.05); /* Hover durumunda logo biraz büyür */
 }
 
+/* Sidebar başlığındaki ikon */
 .sidebar-header i {
   color: #ffc107; /* PETKİM sarısı */
-  margin-bottom: 10px;
+  margin-bottom: 10px; /* Alt boşluk */
 }
 
-
-
+/* Dashboard Başlık */
 .dashboard-header {
-  display: flex;
-  align-items: center;
-  margin-bottom: 20px;
+  display: flex; /* Flex düzeni */
+  align-items: center; /* Dikeyde hizalama */
+  margin-bottom: 20px; /* Alt boşluk */
 }
 
 .dashboard-header label {
-  margin-right: 10px;
-  font-size: 1.2em;
-  font-weight: bold;
+  margin-right: 10px; /* Etiket ile sağındaki öğe arasına boşluk */
+  font-size: 1.2em; /* Yazı boyutu */
+  font-weight: bold; /* Kalın yazı */
 }
 
-
-/* Modül Listesi */
 /* Modül Listesi */
 .module-list {
-  list-style: none;
-  padding: 0;
+  list-style: none; /* Liste madde işareti yok */
+  padding: 0; /* Padding sıfırlanmış */
 }
 
 .module-list li ul {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.3s ease-in-out; /* Daha akıcı bir animasyon */
+  max-height: 0; /* Başlangıçta alt menü gizlenir */
+  overflow: hidden; /* Taşan içeriği gizler */
+  transition: max-height 0.3s ease-in-out; /* Akıcı animasyon */
 }
 
 .module-list li.active ul {
-  max-height: 500px; /* veya uygun bir değer */
+  max-height: 500px; /* Alt menü açıldığında yüksekliği 500px'e çıkar */
 }
 
 .module-list > li > a {
-  display: flex;
+  display: flex; /* Flex düzeni */
   align-items: center; /* Dikey hizalama */
-  padding: 10px 15px;
-  color: #fff;
-  text-decoration: none;
-  font-weight: bold;
-  border-radius: 5px;
-  transition: background-color 0.3s;
-  cursor: pointer;
-  gap: 10px; /* İkon ve yazı arasında boşluk */
+  padding: 10px 15px; /* İç boşluk */
+  color: #fff; /* Beyaz metin rengi */
+  text-decoration: none; /* Alt çizgi kaldırılır */
+  font-weight: bold; /* Kalın yazı */
+  border-radius: 5px; /* Yuvarlatılmış köşeler */
+  transition: background-color 0.3s; /* Arka plan renginde geçiş efekti */
+  cursor: pointer; /* Fareyle üzerine gelince imleç değişir */
+  gap: 10px; /* İkon ile yazı arasında boşluk */
 }
 
 .module-list > li > a:hover {
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: rgba(255, 255, 255, 0.2); /* Hoverda arka plan rengi değişir */
 }
 
 .module-list > li > a i {
-  width: 20px; /* İkon genişliğini sabitle */
-  text-align: center;
-  /* margin-right: 10px; gereksiz artık gap var*/
-  color: #ffc107;
-  flex-shrink: 0; /* İkonun küçülmesini engelle */
+  width: 20px; /* İkonun genişliği sabitlenir */
+  text-align: center; /* İkonu ortalar */
+  color: #ffc107; /* PETKİM sarısı */
+  flex-shrink: 0; /* İkon küçülmez */
 }
-/*Alt menü ok işareti*/
+
+/* Alt menü ok işareti */
 .module-list > li.active > a::after {
   content: '\f078'; /* Font Awesome aşağı ok ikonu */
-  font-family: 'Font Awesome 6 Free';
-  font-weight: 900;
-  transform: rotate(180deg);
-  transition: transform 0.3s ease-in-out;
-  margin-left: auto; /* oku en sağa yaslar */
+  font-family: 'Font Awesome 6 Free'; /* Font Awesome ikonu */
+  font-weight: 900; /* Kalın font */
+  transform: rotate(180deg); /* Ok işareti yukarıya döner */
+  transition: transform 0.3s ease-in-out; /* Geçiş efekti */
+  margin-left: auto; /* Oku en sağa yaslar */
 }
 
-/* ... diğer stiller ... */
-
+/* Alt menü içeriği */
 .module-list li ul {
-  list-style: none;
-  padding-left: 30px;
-  margin: 5px 0 10px; /* Üst boşluk 5px, alt boşluk 10px */
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.3s ease-in-out;
-  background-color: rgba(0, 53, 102, 0.7);
-  border-radius: 5px;
+  list-style: none; /* Madde işareti yok */
+  padding-left: 30px; /* Sol iç boşluk */
+  margin: 5px 0 10px; /* Margin ayarları */
+  max-height: 0; /* Başlangıçta alt menü gizlenir */
+  overflow: hidden; /* Taşan içerik gizlenir */
+  transition: max-height 0.3s ease-in-out; /* Akıcı animasyon */
+  background-color: rgba(0, 53, 102, 0.7); /* Arka plan rengi PETKİM mavisi */
+  border-radius: 5px; /* Yuvarlatılmış köşeler */
 }
 
 .module-list li.active ul {
-  max-height: 500px;
+  max-height: 500px; /* Alt menü açıldığında yüksekliği 500px'e çıkar */
 }
 
 .module-list li ul li a {
-  display: block;
-  padding: 8px 15px;
-  color: #fff;
-  text-decoration: none;
-  border-radius: 3px;
-  transition: background-color 0.3s;
+  display: block; /* Tam genişlikte blok öğesi */
+  padding: 8px 15px; /* İç boşluk */
+  color: #fff; /* Beyaz metin rengi */
+  text-decoration: none; /* Alt çizgi yok */
+  border-radius: 3px; /* Yuvarlatılmış köşeler */
+  transition: background-color 0.3s; /* Arka plan renginde geçiş efekti */
 }
 
 .module-list li ul li a:hover {
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: rgba(255, 255, 255, 0.2); /* Hoverda arka plan rengi değişir */
 }
 
 .module-list li ul li a.active {
-  background-color: #ffc107;
-  color: #003566;
+  background-color: #ffc107; /* Aktif menü öğesinin arka plan rengi */
+  color: #003566; /* Aktif menü öğesinin metin rengi */
 }
 
 /* İçerik Alanı */
 .content {
-  flex: 1;
-  background-color: #fff;
-  padding: 40px;
-  overflow-y: auto;
-  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+  flex: 1; /* Geriye kalan alanı doldurur */
+  background-color: #fff; /* Beyaz arka plan */
+  padding: 40px; /* İçerik alanı için padding */
+  overflow-y: auto; /* Dikey kaydırma çubuğu */
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1); /* Sol tarafta gölge efekti */
 }
 
 .content h1 {
-  color: #003566;
-  font-size: 24px;
-  margin-bottom: 20px;
+  color: #003566; /* Başlık rengi PETKİM mavisi */
+  font-size: 24px; /* Yazı boyutu */
+  margin-bottom: 20px; /* Alt boşluk */
 }
 
 /* Tablo Stilleri */
 table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
+  width: 100%; /* Tablo genişliği %100 */
+  border-collapse: collapse; /* Kenarlık birleşir */
+  margin-top: 20px; /* Üstten boşluk */
   border: 1px solid #ddd; /* Tablo kenarlığı */
 }
 
 th, td {
-  border: 1px solid #ddd;
-  padding: 8px;
-  text-align: left;
+  border: 1px solid #ddd; /* Hücre kenarlığı */
+  padding: 8px; /* Hücre içi boşluk */
+  text-align: left; /* Metin sol hizalanır */
 }
 
 th {
-  background-color: #f2f2f2;
-  font-weight: bold;
-  text-align: left; /* Başlıkları ortala */
+  background-color: #f2f2f2; /* Başlık hücrelerinin arka plan rengi */
+  font-weight: bold; /* Başlık metni kalın */
+  text-align: left; /* Başlıkları sola hizalar */
 }
 
 tr:nth-child(even) { /* Çift satırlara hafif gri arka plan */
   background-color: #f9f9f9;
 }
 
-#gelir_gider {
-  margin-top: 100px; /* Grafiğin üstünden 100 piksel boşluk bırakır */
+
+#canvas-container-finansal {
+  display: flex;
+  flex-wrap: wrap; /* Eğer grafikler konteynırın genişliğini aşarsa alt satıra geçmelerini sağlar */
+  justify-content: space-between; /* Grafikler arasında eşit boşluk bırakır */
+  align-items: center;
+  gap: 100px;
+  margin: 20px 0;
 }
+
+
+#gelir_gider, #gelir_gider_2, #gelir_gider_3, #gelir_gider_4, #gelir_gider2, #gelir_gider2_2, #gelir_gider2_3, #gelir_gider2_4, #gelir_gider3, #gelir_gider3_2, #gelir_gider3_3, #gelir_gider3_4, #gelir_gider4, #gelir_gider4_2, #gelir_gider4_3, #gelir_gider4_4, #gelir_gider5, #gelir_gider5_2, #gelir_gider5_3, #gelir_gider5_4 {
+  max-width: 45%; /* Grafiklerin genişliğini sınırlar */
+  height: auto; /* Oranlarını korur */
+  border: 1px solid #ddd; /* Daha açık tonlarda çerçeve */
+  border-radius: 10px; /* Köşeleri yuvarlatır */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4); /* Hafif bir gölge efekti ekler */
+}
+
+
+
