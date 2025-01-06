@@ -16,7 +16,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-
     
 
     function icerikYukle(sayfaAdi) {
@@ -29,14 +28,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 // İlgili verileri ekle
                 if (data.veriler && data.veriler.length > 0) {
                     if (data.tip === 'projeKarsilastirma') {
-                        icerikHTML += '<canvas class="projeler" id="projeKarlilikGrafigi"></canvas>';
+                        icerikHTML += '<canvas class="projeKarlilikGrafiğiniOlustur" id="projeKarlilikGrafigi"></canvas>';
+                        icerikHTML += '<canvas id="projeTablo"></canvas>';
                     } else {
                         icerikHTML += "<p>Desteklenmeyen veri tipi.</p>";
-                    }
-                }
-                if (data.verilerRisk && data.verilerRisk.length > 0) {
-                    if (data.tip === 'projeKarsilastirmaRisk') {
-                        icerikHTML += '<canvas id="projeKarlilikGrafigiRisk"></canvas>';
                     }
                 }
     
@@ -100,7 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (data.veriler && data.veriler.length > 0) {
                     if (data.tip === 'projeKarsilastirma') {
                         projeKarlilikGrafiğiniOlustur(data.veriler);
-                        projeKarlilikGrafiğiniOlusturRisk(data.veriler);
+                        projeTablo(data.veriler);
                     }
                 }
                 if (data.veriler_1 && data.veriler_1.length > 0) {
@@ -157,6 +152,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
 
+
     function projeKarlilikGrafiğiniOlustur(veriler) {
         const projeAdi = veriler.map(item => item.ProjeAdi);
         const yatirimTutari = veriler.map(item => item.YatirimTutari);
@@ -165,118 +161,151 @@ document.addEventListener('DOMContentLoaded', () => {
         const ctx = document.getElementById('projeKarlilikGrafigi')?.getContext('2d');
         if (!ctx) return;
 
-        new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: projeAdi,
-                datasets: [
-                    {
-                        label: 'Yatırım Tutarı',
-                        data: yatirimTutari,
-                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                        borderColor: 'rgba(255, 99, 132, 1)',
-                        borderWidth: 1
-                    },
-                    {
-                        label: 'Beklenen Getiri',
-                        data: beklenenGetiri,
-                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                        borderColor: 'rgba(54, 162, 235, 1)',
-                        borderWidth: 1
-                    },
-                    {
-                        label: 'Kar Marjı (%)',
-                        data: projeAdi.map((_, index) => 
-                            ((beklenenGetiri[index] - yatirimTutari[index]) / yatirimTutari[index] * 100).toFixed(2)
-                        ),
-                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                        borderColor: 'rgba(75, 192, 192, 1)',
-                        borderWidth: 2,
-                        type: 'line', // Kar marjını çizgi grafiği olarak göstermek için
-                        yAxisID: 'percentage' // İkinci eksen için ID
-                    }
-                ]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    },
-                    percentage: { // Kar marjı için ayrı bir Y ekseni
-                        type: 'linear',
-                        position: 'right',
-                        ticks: {
-                            callback: function(value) {
-                                return value + '%'; // Yüzde işareti eklenir
-                            }
+        try {
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: projeAdi,
+                    datasets: [
+                        {
+                            label: 'Yatırım Tutarı',
+                            data: yatirimTutari,
+                            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                            borderColor: 'rgba(255, 99, 132, 1)',
+                            borderWidth: 1
                         },
-                        grid: {
-                            drawOnChartArea: false // Çakışmayı önlemek için eksen çizgisini ayırır
+                        {
+                            label: 'Beklenen Getiri',
+                            data: beklenenGetiri,
+                            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Kar Marjı (%)',
+                            data: projeAdi.map((_, index) =>
+                                ((beklenenGetiri[index] - yatirimTutari[index]) / yatirimTutari[index] * 100).toFixed(2)
+                            ),
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 2,
+                            type: 'line',
+                            yAxisID: 'percentage'
                         }
-                    }
+                    ]
                 },
-                plugins: {
-                    tooltip: {
-                        callbacks: {
-                            label: function(tooltipItem) {
-                                if (tooltipItem.dataset.label === 'Kar Marjı (%)') {
-                                    return `Kar Marjı: ${tooltipItem.raw}%`;
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        },
+                        percentage: {
+                            type: 'linear',
+                            position: 'right',
+                            ticks: {
+                                callback: function (value) {
+                                    return value + '%';
                                 }
-                                return `${tooltipItem.dataset.label}: ${tooltipItem.raw}`;
+                            },
+                            grid: {
+                                drawOnChartArea: false
+                            }
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function (tooltipItem) {
+                                    if (tooltipItem.dataset.label === 'Kar Marjı (%)') {
+                                        return `Kar Marjı: ${tooltipItem.raw}%`;
+                                    }
+                                    return `${tooltipItem.dataset.label}: ${tooltipItem.raw}`;
+                                }
                             }
                         }
                     }
                 }
-            }
-        });
+            });
+        } catch (error) {
+            console.error('Grafik oluşturulamadı:', error);
+        }
         
     }
-    function projeKarlilikGrafiğiniOlusturRisk(veriler) {
-        const projeAdi = veriler.map(item => item.ProjeAdi);
-        const yatirimTutari = veriler.map(item => item.YatirimTutari);
-        const beklenenGetiri = veriler.map(item => item.BeklenenGetiri);
-
-        const ctx = document.getElementById('projeKarlilikGrafigiRisk')?.getContext('2d');
-        if (!ctx) return;
-
-        new Chart(ctx, {
-            type: 'doughnut',
-            data: {
-                labels: ['Yüksek Risk Seviyesi', 'Orta Risk Seviyesi', 'Düşük Risk Seviyesi'],
-                datasets: [
-                    {
-                        label: 'Düşük Risk Seviyesi',
-                        data: [10], // Düşük Risk Seviyesi projelerinin sayısı
-                        backgroundColor: 'rgb(125, 252, 154)',
-                        borderColor: 'rgb(30, 253, 82)',
-                        borderWidth: 1
-                    },
-                    {
-                        label: 'Orta Risk Seviyesi',
-                        data: [8], // Orta Risk Seviyesi projelerinin sayısı
-                        backgroundColor: 'rgb(130, 201, 248)',
-                        borderColor: 'rgba(54, 162, 235, 1)',
-                        borderWidth: 1
-                    },
-                    {
-                        label: 'Yüksek Risk Seviyesi',
-                        data: [7], // Yüksek Risk Seviyesi projelerinin sayısı
-                        backgroundColor: 'rgb(250, 110, 108)',
-                        borderColor: 'rgb(230, 17, 13)',
-                        borderWidth: 1
-                    }
-                ]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
+    
+    function projeTablo() {
+        // Veriler fonksiyon içinde tanımlandı
+        const veriler = [
+            { ProjeAdi: "Yeni Enerji Santrali Kurulumu", BaslangicTarihi: "2024-01-01", BitisTarihi: "2026-01-01", YatirimTutari: 150000000.00, BeklenenGetiri: 200000000.00, RiskSeviyesi: "Yüksek" },
+            { ProjeAdi: "Petrokimya Ürünleri Üretimi Yatırımı", BaslangicTarihi: "2024-03-01", BitisTarihi: "2025-12-01", YatirimTutari: 80000000.00, BeklenenGetiri: 120000000.00, RiskSeviyesi: "Orta" },
+            { ProjeAdi: "Çevre Dostu Atık Yönetimi Projesi", BaslangicTarihi: "2024-04-15", BitisTarihi: "2025-04-15", YatirimTutari: 5000000.00, BeklenenGetiri: 10000000.00, RiskSeviyesi: "Düşük" },
+            { ProjeAdi: "Yeni Depolama Tesisi Kurulumu", BaslangicTarihi: "2024-05-01", BitisTarihi: "2026-05-01", YatirimTutari: 25000000.00, BeklenenGetiri: 40000000.00, RiskSeviyesi: "Orta" },
+            { ProjeAdi: "Lojistik Altyapı Geliştirme Projesi", BaslangicTarihi: "2024-06-01", BitisTarihi: "2025-06-01", YatirimTutari: 30000000.00, BeklenenGetiri: 45000000.00, RiskSeviyesi: "Düşük" },
+            { ProjeAdi: "Ar-Ge Yatırımı", BaslangicTarihi: "2024-07-01", BitisTarihi: "2027-07-01", YatirimTutari: 10000000.00, BeklenenGetiri: 25000000.00, RiskSeviyesi: "Yüksek" },
+            { ProjeAdi: "Yeni Üretim Tesisi İnşaatı", BaslangicTarihi: "2024-08-01", BitisTarihi: "2025-08-01", YatirimTutari: 40000000.00, BeklenenGetiri: 60000000.00, RiskSeviyesi: "Orta" },
+            { ProjeAdi: "Verimlilik Artırıcı Yatırımlar", BaslangicTarihi: "2024-09-01", BitisTarihi: "2026-09-01", YatirimTutari: 20000000.00, BeklenenGetiri: 30000000.00, RiskSeviyesi: "Orta" },
+            { ProjeAdi: "Petrokimya Ham Maddeleri İthalatı Yatırımı", BaslangicTarihi: "2024-10-01", BitisTarihi: "2025-10-01", YatirimTutari: 15000000.00, BeklenenGetiri: 25000000.00, RiskSeviyesi: "Düşük" },
+            { ProjeAdi: "Biyoteknoloji Ürünleri Üretimi Yatırımı", BaslangicTarihi: "2024-11-01", BitisTarihi: "2026-11-01", YatirimTutari: 12000000.00, BeklenenGetiri: 18000000.00, RiskSeviyesi: "Yüksek" },
+            { ProjeAdi: "Yeni Rafineri İnşaatı", BaslangicTarihi: "2024-12-01", BitisTarihi: "2027-12-01", YatirimTutari: 250000000.00, BeklenenGetiri: 400000000.00, RiskSeviyesi: "Yüksek" },
+            { ProjeAdi: "Dijital Dönüşüm Yatırımı", BaslangicTarihi: "2025-01-01", BitisTarihi: "2026-01-01", YatirimTutari: 50000000.00, BeklenenGetiri: 75000000.00, RiskSeviyesi: "Orta" },
+            { ProjeAdi: "Petrokimya Ürünleri Geri Dönüşüm Projesi", BaslangicTarihi: "2025-03-01", BitisTarihi: "2027-03-01", YatirimTutari: 30000000.00, BeklenenGetiri: 45000000.00, RiskSeviyesi: "Orta" },
+            { ProjeAdi: "Yeni Depo ve Dağıtım Ağı Kurulumu", BaslangicTarihi: "2025-04-01", BitisTarihi: "2026-04-01", YatirimTutari: 15000000.00, BeklenenGetiri: 25000000.00, RiskSeviyesi: "Düşük" },
+            { ProjeAdi: "Biyokimya Ar-Ge Merkezi", BaslangicTarihi: "2025-05-01", BitisTarihi: "2027-05-01", YatirimTutari: 12000000.00, BeklenenGetiri: 18000000.00, RiskSeviyesi: "Yüksek" },
+            { ProjeAdi: "Yenilenebilir Enerji Yatırımları", BaslangicTarihi: "2025-06-01", BitisTarihi: "2028-06-01", YatirimTutari: 100000000.00, BeklenenGetiri: 150000000.00, RiskSeviyesi: "Yüksek" },
+            { ProjeAdi: "Yeni Laboratuvar ve Test Merkezi", BaslangicTarihi: "2025-07-01", BitisTarihi: "2026-07-01", YatirimTutari: 8000000.00, BeklenenGetiri: 12000000.00, RiskSeviyesi: "Orta" },
+            { ProjeAdi: "İleri Teknoloji Üretim Makinaları Yatırımı", BaslangicTarihi: "2025-08-01", BitisTarihi: "2026-08-01", YatirimTutari: 35000000.00, BeklenenGetiri: 55000000.00, RiskSeviyesi: "Düşük" },
+            { ProjeAdi: "Tesis Modernizasyon Projesi", BaslangicTarihi: "2025-09-01", BitisTarihi: "2027-09-01", YatirimTutari: 20000000.00, BeklenenGetiri: 30000000.00, RiskSeviyesi: "Orta" },
+            { ProjeAdi: "Uluslararası Pazar Genişletme Projesi", BaslangicTarihi: "2025-10-01", BitisTarihi: "2027-10-01", YatirimTutari: 50000000.00, BeklenenGetiri: 80000000.00, RiskSeviyesi: "Yüksek" },
+            { ProjeAdi: "Endüstriyel Robotik Teknolojisi Yatırımı", BaslangicTarihi: "2025-11-01", BitisTarihi: "2027-11-01", YatirimTutari: 40000000.00, BeklenenGetiri: 60000000.00, RiskSeviyesi: "Yüksek" },
+            { ProjeAdi: "Petrokimya Ham Maddesi Üretimi", BaslangicTarihi: "2026-01-01", BitisTarihi: "2028-01-01", YatirimTutari: 60000000.00, BeklenenGetiri: 100000000.00, RiskSeviyesi: "Orta" },
+            { ProjeAdi: "Arıtma ve Su Yönetimi Projesi", BaslangicTarihi: "2026-03-01", BitisTarihi: "2027-03-01", YatirimTutari: 15000000.00, BeklenenGetiri: 20000000.00, RiskSeviyesi: "Düşük" },
+            { ProjeAdi: "Yeni Enerji Depolama Teknolojisi Yatırımı", BaslangicTarihi: "2026-04-01", BitisTarihi: "2028-04-01", YatirimTutari: 70000000.00, BeklenenGetiri: 110000000.00, RiskSeviyesi: "Yüksek" },
+            { ProjeAdi: "Dış Mekan Güneş Enerjisi Kurulumu", BaslangicTarihi: "2026-05-01", BitisTarihi: "2027-05-01", YatirimTutari: 25000000.00, BeklenenGetiri: 35000000.00, RiskSeviyesi: "Düşük" }
+        ];
+    
+        let tabloHTML = `
+            <table id="projeTablo" class="table">
+                <thead>
+                    <tr>
+                        <th>Proje Adı</th>
+                        <th>Başlangıç Tarihi</th>
+                        <th>Bitiş Tarihi</th>
+                        <th>Yatırım Tutarı</th>
+                        <th>Beklenen Getiri</th>
+                        <th>Kar Marjı (%)</th>
+                        <th>Risk Seviyesi</th>
+                    </tr>
+                </thead>
+                <tbody>
+        `;
+    
+        // Verileri tabloya ekliyoruz
+        veriler.forEach(item => {
+            const karMarji = ((item.BeklenenGetiri - item.YatirimTutari) / item.YatirimTutari * 100).toFixed(2);
+            tabloHTML += `
+                <tr>
+                    <td>${item.ProjeAdi}</td>
+                    <td>${item.BaslangicTarihi}</td>
+                    <td>${item.BitisTarihi}</td>
+                    <td>${item.YatirimTutari.toLocaleString('tr-TR', { minimumFractionDigits: 2 })} ₺</td>
+                    <td>${item.BeklenenGetiri.toLocaleString('tr-TR', { minimumFractionDigits: 2 })} ₺</td>
+                    <td>${karMarji} %</td>
+                    <td>${item.RiskSeviyesi}</td>
+                </tr>
+            `;
         });
-        
+    
+        tabloHTML += `
+                </tbody>
+            </table>
+        `;
+    
+        const contentArea = document.getElementById('content-area');
+        contentArea.innerHTML += tabloHTML;
     }
+    
+    
+    
+    
 
     function gelir_gider_dashboard(veriler_1) {
         const Tarih = veriler_1.map(item => item.Tarih);
@@ -1748,7 +1777,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         backgroundColor: 'rgba(255, 99, 132, 0.2)',
                         borderColor: 'rgba(255, 99, 132, 1)',
                         borderWidth: 1
-                    },
+         
+       },
                     {
                         label: 'Gider Bütçesi',
                         data: GiderButcesi,
@@ -1809,8 +1839,4 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-<<<<<<< HEAD
 });
-=======
-});
->>>>>>> 6719a533243e97260fbe436bab7fa79b9a2a1f4b

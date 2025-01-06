@@ -43,9 +43,7 @@ app.get('/icerik/proje-karlilik', (req, res) => {
 app.get('/icerik/risk-analizi', (req, res) => {
     const sql = `
         SELECT 
-            ProjeAdi,
-            YatirimTutari,
-            BeklenenGetiri
+            *
         FROM Yatirimlar;
     `;
     baglanti.query(sql, (error, results) => {
