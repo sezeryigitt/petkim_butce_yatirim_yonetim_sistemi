@@ -7,12 +7,14 @@
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+   
 </head>
 <body>
     <div class="container">
+        <!-- Sidebar -->
         <aside class="sidebar">
             <div class="sidebar-header">
-                <img src="resim/indir.png" class="petkim-logo">
+                <img src="resim/indir.png" alt="PETKİM Logo" class="petkim-logo">
                 PETKİM Bütçe Tahminleme ve Optimizasyon Sistemi
             </div>
             <ul class="module-list">
@@ -34,19 +36,22 @@
                     </a>
                     <ul>
                         <li><a href="#" data-sayfa="proje-karlilik">Proje Karlılık Analizi</a></li>
-                        <li><a href="#" data-sayfa="risk-analizi">Risk Analizi</a></li>
                     </ul>
                 </li>
             </ul>
         </aside>
+
+        <!-- Ana içerik alanı -->
         <main class="content" id="content-area">
-            <h1>İçerik Alanı</h1>
-            <p>Lütfen bir modül seçin.</p>
+              <!-- Grafikler -->
+              <div id="canvas-container-finansal">
+                <canvas id="gelir_gider"></canvas>
+                <canvas id="gelir_gider2"></canvas>
+              </div>
         </main>
     </div>
 
-    
-
-    <script src="js/script.js"></script>    
+    <!-- Script dosyası -->
+    <script src="js/script.js"></script>
 </body>
 </html>

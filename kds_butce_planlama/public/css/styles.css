@@ -41,6 +41,9 @@ body {
   transition: transform 0.3s ease-in-out; /* Geçiş efekti */
 }
 
+
+
+
 .petkim-logo:hover {
   transform: scale(1.05); /* Hover durumunda logo biraz büyür */
 }
@@ -199,6 +202,7 @@ tr:nth-child(even) { /* Çift satırlara hafif gri arka plan */
 
 
 #gelir_gider, #gelir_gider_2, #gelir_gider_3, #gelir_gider_4, #gelir_gider2, #gelir_gider2_2, #gelir_gider2_3, #gelir_gider2_4, #gelir_gider3, #gelir_gider3_2, #gelir_gider3_3, #gelir_gider3_4, #gelir_gider4, #gelir_gider4_2, #gelir_gider4_3, #gelir_gider4_4, #gelir_gider5, #gelir_gider5_2, #gelir_gider5_3, #gelir_gider5_4 {
+  margin-top: 30px;
   max-width: 45%; /* Grafiklerin genişliğini sınırlar */
   height: auto; /* Oranlarını korur */
   border: 1px solid #ddd; /* Daha açık tonlarda çerçeve */
@@ -206,14 +210,85 @@ tr:nth-child(even) { /* Çift satırlara hafif gri arka plan */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4); /* Hafif bir gölge efekti ekler */
 }
 
-#projeKarlilikGrafigi{
-  max-width: 100%; /* Grafiklerin genişliğini sınırlar */
+
+
+
+#projeKarlilikGrafigi, #projeTablo{
+  max-width: 1000%; /* Grafiklerin genişliğini sınırlar */
   height: auto; /* Oranlarını korur */
   border: 1px solid #ddd; /* Daha açık tonlarda çerçeve */
   border-radius: 10px; /* Köşeleri yuvarlatır */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4); /* Hafif bir gölge efekti ekler */
 }
 
+#projeTablo {
+  margin-top: 100px; /* Grafik ile tablo arasına boşluk koyar */
+}
+
+#projeRiskAnalizi2 {
+  display: block;
+  width: 100%;
+  height: 400px;
+}
 
 
+
+#widget-container {
+  display: flex; /* Widget'ları yatay hizalar */
+  justify-content: space-between; /* Widget'lar arasında eşit boşluk bırakır */
+  margin-bottom: 20px; /* Grafiklerden aşağı boşluk */
+}
+
+.widget {
+  flex: 1; /* Widget'ların eşit genişlikte olmasını sağlar */
+  margin: 0 10px; /* Widget'lar arasında yan boşluk */
+  padding: 20px; /* İç boşluk */
+  background-color: #ffffff; /* Beyaz arka plan */
+  border: 1px solid #ddd; /* Hafif kenarlık */
+  border-radius: 10px; /* Yuvarlatılmış köşeler */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Hafif gölge efekti */
+  text-align: center; /* İçerik ortalanır */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Hover animasyonu */
+}
+
+.widget:hover {
+  transform: translateY(-5px); /* Hover sırasında yukarı kayma efekti */
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2); /* Daha belirgin gölge efekti */
+}
+
+.widget-icon {
+  font-size: 36px; /* Büyük ikon boyutu */
+  margin-bottom: 10px; /* İkon ile başlık arasında boşluk */
+  color: #003566; /* PETKİM mavisi */
+}
+
+.widget-title {
+  font-size: 18px; /* Başlık boyutu */
+  font-weight: bold; /* Kalın başlık yazı tipi */
+  color: #003566; /* PETKİM mavisi */
+  margin-bottom: 10px; /* Başlık alt boşluk */
+}
+
+.widget-value {
+  font-size: 16px; /* Değer boyutu */
+  color: #666; /* Açık gri metin rengi */
+}
+
+.widget-value span {
+  font-weight: bold; /* Değer kısmını kalın yapar */
+  color: #ff6f61; /* Dikkat çekici bir renk */
+}
+
+/* Widget Tematik Renkleri */
+.widget-financial {
+  border-left: 5px solid #2a9d8f; /* Gelir widget'ı için yeşil bir kenarlık */
+}
+
+.widget-expense {
+  border-left: 5px solid #e76f51; /* Gider widget'ı için kırmızı bir kenarlık */
+}
+
+.widget-profit {
+  border-left: 5px solid #f4a261; /* Kâr widget'ı için turuncu bir kenarlık */
+}
 

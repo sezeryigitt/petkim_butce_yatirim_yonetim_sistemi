@@ -39,22 +39,20 @@ app.get('/icerik/proje-karlilik', (req, res) => {
         res.json({ tip: 'projeKarsilastirma', veriler: results });
     });
 });
-
 app.get('/icerik/risk-analizi', (req, res) => {
     const sql = `
         SELECT 
             *
         FROM Yatirimlar;
-    `;
+    `
     baglanti.query(sql, (error, results) => {
         if (error) {
             console.error("SQL sorgu hatası:", error);
             return res.status(500).json({ hata: "Veritabanı hatası" });
         }
-        res.json({ tip: 'projeKarsilastirmaRisk', verilerRisk: results });
+        res.json({ tip: 'projeRiskAnaliziVeri', veriler12: results });
     });
 });
-
 
 
 
