@@ -16,8 +16,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    
-
     function icerikYukle(sayfaAdi) {
         fetch(`/icerik/${sayfaAdi}`)
             .then(response => response.json())
