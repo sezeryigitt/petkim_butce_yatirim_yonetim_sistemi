@@ -2,6 +2,17 @@
 PETKİM için özel olarak geliştirilen bu sistem, yatırım projeleri, bütçe planlaması, operasyonel maliyetler ve finansal risk analizlerinin bütünsel olarak yönetilmesini sağlayan web tabanlı bir dashboard uygulamasıdır.
 Amacımız: Finansal karar alma süreçlerini daha verimli, şeffaf ve veri odaklı hale getirerek işletmeye %30’a varan maliyet optimizasyonu sağlamaktır.
 
+
+## ⚙️ Kurulum ve Gereksinimler
+
+### 📌 Gereken Global Kurulumlar
+
+- [Node.js (v16+)](https://nodejs.org/)
+- [MySQL Server](https://dev.mysql.com/downloads/)
+- Gerekirse: `npm` ya da `yarn`
+
+
+
 🚀 Özellikler
 🔹 Proje Karlılık Analizi
 🔹 Risk Yönetimi
