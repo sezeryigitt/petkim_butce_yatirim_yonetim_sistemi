@@ -1,86 +1,142 @@
-📊 PETKİM Bütçe ve Yatırım Yönetim Sistemi
-PETKİM için özel olarak geliştirilen bu sistem, yatırım projeleri, bütçe planlaması, operasyonel maliyetler ve finansal risk analizlerinin bütünsel olarak yönetilmesini sağlayan web tabanlı bir dashboard uygulamasıdır.
-Amacımız: Finansal karar alma süreçlerini daha verimli, şeffaf ve veri odaklı hale getirerek işletmeye %30’a varan maliyet optimizasyonu sağlamaktır.
+﻿# PETKİM Bütçe ve Yatırım Yönetim Sistemi
 
+Yatırım projeleri için karlılık analizi, bütçe planlaması ve finansal risk değerlendirmesi yapan web tabanlı yönetim sistemi. Dashboard üzerinden tesis bazlı gelir-gider takibi, operasyonel maliyet analizi ve raporlama özellikleri sunar.
 
-## ⚙️ Kurulum ve Gereksinimler
+## Kurulum
 
-### 📌 Gereken Global Kurulumlar
+### Gereksinimler
 
-- [Node.js (v16+)](https://nodejs.org/)
-- [MySQL Server](https://dev.mysql.com/downloads/)
-- Gerekirse: `npm` ya da `yarn`
+Sistemi çalıştırmak için aşağıdaki yazılımların kurulu olması gerekir:
 
+- **Node.js** v16 veya üzeri
+- **MySQL** 8.0 veya üzeri
 
+### Kurulum Adımları
 
-🚀 Özellikler
-🔹 Proje Karlılık Analizi
-🔹 Risk Yönetimi
-🔹 Gelir-Gider Takibi (5 tesis özelinde)
-🔹 Operasyonel Maliyet İzleme
-🔹 Dinamik Grafikler ve Tablolar
-🔹 Gerçek zamanlı veri entegrasyonu (gelecek sürüm)
-🔹 PDF Rapor Çıktısı Alma (hazır)
+```bash
+# Proje dizinine git
+cd kds_butce_planlama
 
+# Bağımlılıkları yükle
+npm install
 
+# Veritabanı ayarlarını yapılandır
+# (server.js içinde MySQL bağlantı bilgilerini güncelle)
 
-🛠️ Kullanılan Teknolojiler
-Frontend
-HTML5, CSS3 (Flexbox/Grid)
-Vanilla JavaScript (ES6+)
-Chart.js (v3.7.1)
-Font Awesome v6
+# Uygulamayı başlat
+npm start
+```
 
-Backend
-Node.js (v16+)
-Express.js (v4.17)
-MySQL (v8.0)
-mysql2/promise
+Uygulama varsayılan olarak **http://localhost:3000** adresinde çalışmaya başlar.
 
+---
 
+## Özellikler
 
+### Proje Yönetimi
+- **Karlılık Analizi**: Yatırım projelerinin gelir-gider dengesi ve kar marjı hesaplama
+- **Risk Değerlendirme**: Finansal risklerin analizi ve görselleştirilmesi
+- **Tesis Bazlı Takip**: 5 farklı tesis için ayrı gelir-gider yönetimi
 
-🧱 Sistem Mimarisi
-Modüller:
-📈 Proje Karlılık Analizi
-🔍 Risk Analizi
-💰 Gelir-Gider Yönetimi
-⚙️ Operasyonel Maliyet Takibi
+### Raporlama ve Görselleştirme
+- İnteraktif grafikler (Chart.js)
+- Tablo bazlı veri sunumu
+- PDF rapor çıktısı
+- Operasyonel maliyet izleme
 
+---
 
+## Teknolojiler
 
+### Frontend
+- HTML5 & CSS3
+- Vanilla JavaScript (ES6+)
+- [Chart.js](https://www.chartjs.org/) - Grafik görselleştirme
+- Font Awesome - İkonlar
 
+### Backend
+- Node.js (v16+)
+- Express.js (v4.17)
+- MySQL (v8.0)
+- mysql2/promise - Veritabanı işlemleri
 
-✅ Test Senaryoları
-Birim testler (kar marjı hesaplama, veri format kontrolü)
-Entegrasyon testleri (GET /icerik/proje-karlilik gibi endpoint doğrulama)
-Örnek Jest test kodları README sonunda verilmiştir (isteğe bağlı olarak eklenebilir)
+---
 
+## Proje Yapısı
 
+```
+kds_butce_planlama/
+ server.js              # Express sunucusu ve API endpoint'leri
+ package.json           # Bağımlılıklar ve betikler
+ public/
+     index.html         # Ana sayfa
+     css/
+        styles.css     # Stil dosyaları
+     js/
+        script.js      # Ana JavaScript dosyası
+        yatirimVerileri.js
+     resim/             # Görsel varlıklar
+```
 
+---
 
-🔐 Güvenlik Önlemleri
-SQL injection koruması (prepared statements)
-Input validation
-Error logging
+## API Endpoint'leri
 
+| Method | Endpoint | Açıklama |
+|--------|----------|----------|
+| `GET` | `/icerik/proje-karlilik` | Proje karlılık verilerini döndürür |
+| `GET` | `/icerik/risk-analizi` | Risk analiz verilerini döndürür |
+| `GET` | `/icerik/gelir-gider` | Tesis bazlı gelir-gider bilgileri |
+| `GET` | `/icerik/operasyonel-maliyet` | Operasyonel maliyet verileri |
 
+**Örnek Response:**
+```json
+{
+  "success": true,
+  "data": [ /* proje verileri */ ]
+}
+```
 
-📦 Gelecek Sürüm Planları
-🔑 Kullanıcı Yönetimi (giriş, roller)
-📡 WebSocket ile gerçek zamanlı veri
-📄 Otomatik PDF rapor çıktısı
-📊 Gelişmiş filtreleme ve export özellikleri
+---
 
+## Geliştirme
 
+### Veritabanı Şeması
 
+Proje aşağıdaki MySQL tablolarını kullanır:
+- `projeler` - Yatırım projeleri
+- `risk_analiz` - Risk değerlendirme verileri
+- `gelir_gider` - Gelir-gider kayıtları
+- `operasyonel_maliyet` - Operasyonel maliyet takibi
 
+### Testler
 
-👨‍💻 Katkıda Bulunmak İster misin? (sezeryigit.tr@gmail.com)
-Pull request’ler, issue bildirimleri ve öneriler her zaman memnuniyetle karşılanır!
-Lütfen katkı yapmadan önce CONTRIBUTING.md dosyasını inceleyin.
+```bash
+# Test komutları eklenecek
+npm test
+```
 
+---
 
-📄 Lisans
-MIT Lisansı © 2025 Sezer Yiğit
-(Bu proje eğitim ve demo amaçlıdır. Gerçek şirket verisi içermez.)
+## Roadmap
+
+- [ ] Kullanıcı authentication ve yetkilendirme
+- [ ] WebSocket ile gerçek zamanlı veri güncelleme
+- [ ] Otomatik raporlama ve e-posta bildirimleri
+- [ ] Excel import/export desteği
+- [ ] Dashboard widget'ları için özelleştirme
+
+---
+
+## Katkıda Bulunma
+
+Pull request ve issue'lar için: **sezeryigit.tr@gmail.com**  
+LinkedIn: [linkedin.com/in/sezer-yigit-](https://www.linkedin.com/in/sezer-yigit-/)
+
+---
+
+## Lisans
+
+MIT  2025 Sezer Yiğit
+
+> **Not:** Bu proje demo amaçlıdır ve gerçek şirket verisi içermez.
